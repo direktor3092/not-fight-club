@@ -58,6 +58,7 @@ function renderAvatarList() {
       renderCharacter();
       renderHome();
       if (state.isBattleActive) renderBattle();
+      navigateTo('home');
     });
   });
 }
