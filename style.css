@@ -680,3 +680,31 @@ body {
     font-size: 0.7rem;
   }
 }
+
+.reset-btn {
+  margin-top: 20px;
+  padding: 10px 24px;
+  background: #e74c3c;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.reset-btn:hover {
+  background: #c0392b;
+}
+
+.reset-btn:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 600px) {
+  .reset-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+}

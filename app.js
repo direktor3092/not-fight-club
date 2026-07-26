@@ -1,5 +1,5 @@
 import { loadState, saveState } from './storage.js';
-import { state, updatePlayer, startBattle } from './state.js';
+import { state, updatePlayer, startBattle, initState } from './state.js';
 import { renderHome, renderCharacter, renderSettings, renderBattle, renderRegistration } from './ui.js';
 
 const soundMenu = document.getElementById('sound-menu');
@@ -126,6 +126,10 @@ export function initApp() {
 
 initApp();
 
-window.addEventListener('beforeunload', () => {
-  saveState();
+document.getElementById('reset-progress-btn')?.addEventListener('click', () => {
+  if (confirm('Вы уверены? Весь прогресс будет удалён безвозвратно.')) {
+    localStorage.removeItem('not-fight-club-state');
+    initState(null);
+    location.reload();
+  }
 });
