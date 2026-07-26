@@ -116,6 +116,7 @@ body {
   align-items: center;
   gap: 30px;
   margin-bottom: 30px;
+  margin-top: 12px;
 }
 
 .avatar-wrapper img {
@@ -897,4 +898,8 @@ body {
 #settings-save-btn:active {
   transform: scale(0.96);
   background: #e67e22;
+}
+
+#page-character h1 {
+  margin-bottom: 24px;
 }
