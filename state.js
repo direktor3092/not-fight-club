@@ -1,6 +1,6 @@
 import { randomItem } from './utils/random.js';
 
-export const ZONES = ['head', 'body', 'legs', 'arms'];
+export const ZONES = ['Голова', 'Корпус', 'Ноги', 'Руки'];
 
 const defaultPlayer = {
   name: 'Боец',
