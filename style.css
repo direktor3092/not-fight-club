@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -138,15 +137,16 @@ body {
 
 #avatar-list {
   display: flex;
-  gap: 16px;
+  gap: 24px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 #avatar-list img {
-  width: 70px;
-  height: 70px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   cursor: pointer;
   transition: 0.2s;
   object-fit: cover;
@@ -159,7 +159,7 @@ body {
 
 #avatar-list img.selected {
   border-color: #f1c40f;
-  box-shadow: 0 0 12px #f1c40f;
+  box-shadow: 0 0 16px #f1c40f;
 }
 
 #page-settings label {
@@ -452,7 +452,18 @@ body {
     max-height: 350px;
   }
 }
+
 @media (max-width: 600px) {
+  #avatar-list {
+  gap: 16px;
+}
+
+#avatar-list img {
+  width: 90px;
+  height: 90px;
+  border-width: 2px;
+}
+
   .main-nav {
     justify-content: center;
   }
@@ -708,6 +719,7 @@ body {
     font-size: 1rem;
   }
 }
+
 .done-btn {
   display: block;
   margin: 24px auto 0;
