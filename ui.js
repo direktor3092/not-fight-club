@@ -1,7 +1,8 @@
-import { state, ZONES, startBattle } from './state.js';
+import { state, ZONES, startBattle, PLAYER_CHARACTERS, setPlayerCharacter } from './state.js';
 import { saveState } from './storage.js';
 import { navigateTo } from './app.js';
 import { playBattleMusic } from './app.js';
+
 
 export function renderRegistration() {
   const input = document.getElementById('player-name-input');
@@ -41,12 +42,7 @@ export function renderCharacter() {
 function renderAvatarList() {
   const container = document.getElementById('avatar-list');
   if (!container) return;
-
-  const avatars = [
-    'assets/avatars/default.png',
-    'assets/avatars/avatar1.png',
-    'assets/avatars/avatar2.png',
-  ];
+  const avatars = PLAYER_CHARACTERS.map(c => c.avatar);
 
   const currentAvatar = state.player.avatar || 'assets/avatars/default.png';
 
@@ -62,11 +58,20 @@ function renderAvatarList() {
   container.querySelectorAll('img').forEach(img => {
     img.addEventListener('click', () => {
       const src = img.dataset.src;
-      state.player.avatar = src;
-      saveState();
-      renderCharacter();
-      renderHome();
-      if (state.isBattleActive) renderBattle();
+      const character = PLAYER_CHARACTERS.find(c => c.avatar === src);
+      if (character) {
+        setPlayerCharacter(character.id);
+        saveState();
+        renderCharacter();
+        renderHome();
+        if (state.isBattleActive) renderBattle();
+      } else {
+        state.player.avatar = src;
+        saveState();
+        renderCharacter();
+        renderHome();
+        if (state.isBattleActive) renderBattle();
+      }
     });
   });
 }
