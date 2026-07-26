@@ -79,6 +79,7 @@ export function navigateTo(pageId) {
 navButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const page = btn.dataset.page;
+    if (!page) return;
     if (page === 'battle' && !state.isBattleActive) return;
     navigateTo(page);
   });
@@ -133,6 +134,35 @@ document.getElementById('reset-progress-btn')?.addEventListener('click', () => {
     location.reload();
   }
 });
+
 document.getElementById('character-done-btn')?.addEventListener('click', () => {
   navigateTo('home');
+});
+
+const rulesBtn = document.getElementById('rules-btn');
+const rulesModal = document.getElementById('rules-modal');
+const modalClose = document.getElementById('modal-close-btn');
+
+rulesBtn?.addEventListener('click', () => {
+  rulesModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+});
+
+modalClose?.addEventListener('click', () => {
+  rulesModal.classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+rulesModal?.addEventListener('click', (e) => {
+  if (e.target === rulesModal) {
+    rulesModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && rulesModal?.classList.contains('active')) {
+    rulesModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 });

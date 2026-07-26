@@ -7,14 +7,17 @@
     <title>Not Fight Club</title>
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="app.js"></script>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥊</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥊</text></svg>">
 </head>
+
 <body>
     <nav id="main-nav" class="main-nav">
         <button data-page="home">🏠 Дом</button>
         <button data-page="character">👤 Персонаж</button>
         <button data-page="settings">⚙️ Настройки</button>
         <button data-page="battle" id="nav-battle" style="display:none;">⚔️ Бой</button>
+        <button id="rules-btn">📖 Правила</button>
     </nav>
     <main id="app">
         <section id="page-registration" class="page active">
@@ -106,5 +109,23 @@
     <audio id="sound-battle" loop src="assets/sounds/battle.mp3"></audio>
     <audio id="sound-hit" src="assets/sounds/hit.mp3"></audio>
     <audio id="sound-end" src="assets/sounds/end.mp3"></audio>
+    <div id="rules-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close">&times;</button>
+            <h2>📖 Правила боя</h2>
+            <ul>
+                <li><strong>Зоны:</strong> голова, корпус, ноги, руки.</li>
+                <li>Каждый ход вы выбираете <strong>1 зону для атаки</strong> и <strong>2 зоны для защиты</strong>.</li>
+                <li>Урон проходит, если атака попала в зону, которую противник <strong>не защищает</strong>.</li>
+                <li><strong>Критический удар</strong> (случайный шанс) наносит <strong>×1.5 урона</strong> и
+                    <strong>пробивает любую защиту</strong>.</li>
+                <li>Бой длится, пока у одного из бойцов не закончится HP.</li>
+                <li>Победы и поражения сохраняются даже после перезагрузки страницы.</li>
+                <li>Лог показывает каждое действие хода: кто атаковал, куда, сколько урона (и был ли блок/крит).</li>
+            </ul>
+            <p style="margin-top:16px; color:#aaa; font-style:italic;">Удачи в бою! 🥊</p>
+        </div>
+    </div>
 </body>
+
 </html>
