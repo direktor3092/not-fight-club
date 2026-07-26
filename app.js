@@ -133,3 +133,6 @@ document.getElementById('reset-progress-btn')?.addEventListener('click', () => {
     location.reload();
   }
 });
+document.getElementById('character-done-btn')?.addEventListener('click', () => {
+  navigateTo('home');
+});

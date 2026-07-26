@@ -708,3 +708,32 @@ body {
     font-size: 1rem;
   }
 }
+.done-btn {
+  display: block;
+  margin: 24px auto 0;
+  padding: 14px 40px;
+  background: #2ecc71;
+  border: none;
+  border-radius: 40px;
+  font-size: 1.2rem;
+  color: #1a1a1a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.done-btn:hover {
+  background: #27ae60;
+}
+
+.done-btn:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 600px) {
+  .done-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+  }
+}
