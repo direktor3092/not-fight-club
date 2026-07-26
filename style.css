@@ -849,3 +849,28 @@ body {
     right: 12px;
   }
 }
+
+.character-stats {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: #2a2a2a;
+  border-radius: 12px;
+  border-left: 4px solid #f1c40f;
+}
+
+.character-stats h3 {
+  color: #f1c40f;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.character-stats p {
+  margin: 4px 0;
+  font-size: 1rem;
+  color: #eee;
+}
+
+.character-stats span {
+  color: #fff;
+  font-weight: bold;
+}

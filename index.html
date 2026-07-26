@@ -51,6 +51,11 @@
                 <div class="avatar-selector">
                     <h3>Выберите бойца</h3>
                     <div id="avatar-list"></div>
+                    <div class="character-stats">
+                        <h3>📊 Характеристики</h3>
+                        <p><strong>Урон:</strong> <span id="char-damage">10</span></p>
+                        <p><strong>Здоровье:</strong> <span id="char-hp">100</span></p>
+                    </div>
                     <button id="character-done-btn" class="done-btn">✅ Готово</button>
                 </div>
             </div>
@@ -118,7 +123,8 @@
                 <li>Каждый ход вы выбираете <strong>1 зону для атаки</strong> и <strong>2 зоны для защиты</strong>.</li>
                 <li>Урон проходит, если атака попала в зону, которую противник <strong>не защищает</strong>.</li>
                 <li><strong>Критический удар</strong> (случайный шанс) наносит <strong>×1.5 урона</strong> и
-                    <strong>пробивает любую защиту</strong>.</li>
+                    <strong>пробивает любую защиту</strong>.
+                </li>
                 <li>Бой длится, пока у одного из бойцов не закончится HP.</li>
                 <li>Победы и поражения сохраняются даже после перезагрузки страницы.</li>
                 <li>Лог показывает каждое действие хода: кто атаковал, куда, сколько урона (и был ли блок/крит).</li>

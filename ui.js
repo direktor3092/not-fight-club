@@ -20,7 +20,16 @@ export function renderCharacter() {
   const nameSpan = document.getElementById('character-name');
   const winsSpan = document.getElementById('character-wins');
   const lossesSpan = document.getElementById('character-losses');
+  const dmgSpan = document.getElementById('char-damage');
+  const hpSpan = document.getElementById('char-hp');
+  const profileSpan = document.getElementById('char-profile');
 
+  if (dmgSpan) dmgSpan.textContent = state.player.baseDamage || '?';
+  if (hpSpan) hpSpan.textContent = state.player.maxHp || '?';
+  if (profileSpan) {
+    const p = state.player.profile || { attack: 1, defend: 2 };
+    profileSpan.textContent = `Атака: ${p.attack} зон / Защита: ${p.defend} зон`;
+  }
   if (avatarImg) avatarImg.src = state.player.avatar || 'assets/avatars/default.png';
   if (nameSpan) nameSpan.textContent = state.player.name || 'Боец';
   if (winsSpan) winsSpan.textContent = state.player.wins || 0;
@@ -147,7 +156,7 @@ function renderZones() {
 
     container.innerHTML = ZONES.map(zone => {
       const isSelected = isAttack ? (selected === zone) : selectedList.includes(zone);
-      const cls = isSelected 
+      const cls = isSelected
         ? (isAttack ? 'zone-btn selected-attack' : 'zone-btn selected-defend')
         : 'zone-btn';
       return `<button class="${cls}" data-zone="${zone}" data-type="${type}">${zone.charAt(0).toUpperCase() + zone.slice(1)}</button>`;
