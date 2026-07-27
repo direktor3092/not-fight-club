@@ -54,9 +54,14 @@ function renderAvatarList() {
       data-src="${src}"
     />
   `).join('');
-
   container.querySelectorAll('img').forEach(img => {
     img.addEventListener('click', () => {
+      if (state.isBattleActive) {
+        import('./app.js').then(module => {
+          module.showToast('Нельзя сменить персонажа во время боя!');
+        });
+        return;
+      }
       const src = img.dataset.src;
       const character = PLAYER_CHARACTERS.find(c => c.avatar === src);
       if (character) {

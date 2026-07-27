@@ -39,6 +39,22 @@ export function playEndSound() {
   soundEnd.play().catch(() => {});
 }
 
+export function showToast(text, duration = 2000) {
+  const old = document.querySelector('.toast');
+  if (old) old.remove();
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
+}
+
 function preloadImages() {
   const avatars = [
     'assets/avatars/default.png',
@@ -57,9 +73,7 @@ function preloadImages() {
 function preloadAudio() {
   const sounds = [soundMenu, soundBattle, soundHit, soundEnd];
   sounds.forEach(audio => {
-    if (audio) {
-      audio.load();
-    }
+    if (audio) audio.load();
   });
 }
 
@@ -76,18 +90,18 @@ const pages = {
 let currentPage = 'registration';
 
 export function navigateTo(pageId) {
-  if (pageId === 'registration') {
-    nav.style.display = 'none';
-  } else {
-    nav.style.display = 'flex';
-  }
-
   Object.values(pages).forEach(p => p.classList.remove('active'));
   if (pages[pageId]) pages[pageId].classList.add('active');
 
   navButtons.forEach(btn => {
     btn.classList.toggle('active', btn.dataset.page === pageId);
   });
+
+  if (pageId === 'registration') {
+    nav.style.display = 'none';
+  } else {
+    nav.style.display = 'flex';
+  }
 
   currentPage = pageId;
 
@@ -140,23 +154,84 @@ document.getElementById('start-battle-btn').addEventListener('click', () => {
   navigateTo('battle');
 });
 
-document.getElementById('reset-progress-btn')?.addEventListener('click', () => {
-  if (confirm('Вы уверены? Весь прогресс будет удалён безвозвратно.')) {
+const resetBtn = document.getElementById('reset-progress-btn');
+const rulesModal = document.getElementById('rules-modal');
+const modalClose = document.getElementById('modal-close-btn');
+
+resetBtn?.addEventListener('click', () => {
+  const content = rulesModal.querySelector('.modal-content');
+  content.innerHTML = `
+    <button id="modal-close-btn" class="modal-close">&times;</button>
+    <h2>⚠️ Подтверждение</h2>
+    <p style="margin: 20px 0; font-size:1.1rem;">Вы уверены? Весь прогресс будет удалён безвозвратно.</p>
+    <div style="display:flex; gap:16px; justify-content:center;">
+      <button id="modal-confirm-yes" class="btn-confirm" style="background:#e74c3c; border:none; border-radius:20px; padding:10px 30px; color:#fff; cursor:pointer;">Да, сбросить</button>
+      <button id="modal-confirm-no" class="btn-confirm" style="background:#555; border:none; border-radius:20px; padding:10px 30px; color:#fff; cursor:pointer;">Отмена</button>
+    </div>
+  `;
+  rulesModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  document.getElementById('modal-confirm-yes').addEventListener('click', () => {
     localStorage.removeItem('not-fight-club-state');
     initState(null);
+    rulesModal.classList.remove('active');
+    document.body.style.overflow = '';
     location.reload();
-  }
+  });
+
+  document.getElementById('modal-confirm-no').addEventListener('click', () => {
+    rulesModal.classList.remove('active');
+    document.body.style.overflow = '';
+    restoreRulesModal();
+  });
+
+  document.getElementById('modal-close-btn').addEventListener('click', () => {
+    rulesModal.classList.remove('active');
+    document.body.style.overflow = '';
+    restoreRulesModal();
+  });
+
+  rulesModal.addEventListener('click', function handler(e) {
+    if (e.target === rulesModal) {
+      rulesModal.classList.remove('active');
+      document.body.style.overflow = '';
+      restoreRulesModal();
+      rulesModal.removeEventListener('click', handler);
+    }
+  });
 });
+
+function restoreRulesModal() {
+  const content = rulesModal.querySelector('.modal-content');
+  content.innerHTML = `
+    <button id="modal-close-btn" class="modal-close">&times;</button>
+    <h2>📖 Правила боя</h2>
+    <ul>
+      <li><strong>Зоны:</strong> голова, корпус, ноги, руки.</li>
+      <li>Каждый ход вы выбираете <strong>1 зону для атаки</strong> и <strong>2 зоны для защиты</strong>.</li>
+      <li>Урон проходит, если атака попала в зону, которую противник <strong>не защищает</strong>.</li>
+      <li><strong>Критический удар</strong> (случайный шанс) наносит <strong>×1.5 урона</strong> и <strong>пробивает любую защиту</strong>.</li>
+      <li>Бой длится, пока у одного из бойцов не закончится HP.</li>
+      <li>Победы и поражения сохраняются даже после перезагрузки страницы.</li>
+      <li>Лог показывает каждое действие хода: кто атаковал, куда, сколько урона (и был ли блок/крит).</li>
+    </ul>
+    <p style="margin-top:16px; color:#aaa; font-style:italic;">Удачи в бою! 🥊</p>
+  `;
+  document.getElementById('modal-close-btn').addEventListener('click', () => {
+    rulesModal.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+}
 
 document.getElementById('character-done-btn')?.addEventListener('click', () => {
   navigateTo('home');
 });
 
 const rulesBtn = document.getElementById('rules-btn');
-const rulesModal = document.getElementById('rules-modal');
-const modalClose = document.getElementById('modal-close-btn');
 
 rulesBtn?.addEventListener('click', () => {
+  restoreRulesModal();
   rulesModal.classList.add('active');
   document.body.style.overflow = 'hidden';
 });
@@ -196,6 +271,7 @@ export function initApp() {
     navigateTo('home');
   } else {
     navigateTo('registration');
+    nav.style.display = 'none';
   }
 
   document.getElementById('settings-name-input').value = state.player.name;
