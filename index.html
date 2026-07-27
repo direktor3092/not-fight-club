@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Not Fight Club</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="app.js"></script>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥊</text></svg>">
+</head>
+
+<body>
+    <nav id="main-nav" class="main-nav">
+        <button data-page="home">🏠 Дом</button>
+        <button data-page="character">👤 Персонаж</button>
+        <button data-page="settings">⚙️ Настройки</button>
+        <button data-page="battle" id="nav-battle" style="display:none;">⚔️ Бой</button>
+        <button id="rules-btn">📖 Правила</button>
+    </nav>
+    <main id="app">
+        <section id="page-registration" class="page active">
+            <div class="container">
+                <h1>🥊 Not Fight Club</h1>
+                <p>Введите своё имя, чтобы начать</p>
+                <input type="text" id="player-name-input" placeholder="Ваше имя" />
+                <button id="register-btn">Начать игру</button>
+            </div>
+        </section>
+        <section id="page-home" class="page">
+            <div class="container">
+                <h1>🏠 Дом</h1>
+                <p>Привет, <span id="home-player-name"></span>!</p>
+                <button id="start-battle-btn">⚔️ Начать бой</button>
+            </div>
+        </section>
+        <section id="page-character" class="page">
+            <div class="container">
+                <h1>👤 Персонаж</h1>
+                <div class="character-info">
+                    <div class="avatar-wrapper">
+                        <img id="character-avatar" src="assets/avatars/default.png" alt="Avatar" />
+                    </div>
+                    <div class="stats">
+                        <p><strong>Имя:</strong> <span id="character-name"></span></p>
+                        <p><strong>Побед:</strong> <span id="character-wins">0</span></p>
+                        <p><strong>Поражений:</strong> <span id="character-losses">0</span></p>
+                    </div>
+                </div>
+                <div class="avatar-selector">
+                    <h3>Выберите бойца</h3>
+                    <div id="avatar-list"></div>
+                    <div class="character-stats">
+                        <h3>📊 Характеристики</h3>
+                        <p><strong>Урон:</strong> <span id="char-damage">10</span></p>
+                        <p><strong>Здоровье:</strong> <span id="char-hp">100</span></p>
+                    </div>
+                    <button id="character-done-btn" class="done-btn">✅ Готово</button>
+                </div>
+            </div>
+        </section>
+        <section id="page-settings" class="page">
+            <div class="container">
+                <h1>⚙️ Настройки</h1>
+                <label for="settings-name-input">Имя:</label>
+                <input type="text" id="settings-name-input" />
+                <button id="settings-save-btn">Сохранить</button>
+                <button id="reset-progress-btn" class="reset-btn">🗑️ Сбросить прогресс</button>
+            </div>
+        </section>
+        <section id="page-battle" class="page">
+            <div class="container battle-container">
+                <h1>⚔️ Бой</h1>
+                <div class="battle-layout">
+                    <div class="fighter player">
+                        <img id="battle-player-avatar" class="battle-avatar" src="assets/avatars/default.png"
+                            alt="player avatar" />
+                        <h2><span id="battle-player-name"></span> <span class="hp-label">HP</span></h2>
+                        <div class="hp-bar">
+                            <div id="player-hp-fill" style="width:100%;"></div>
+                        </div>
+                        <span id="player-hp-text">100 / 100</span>
+                    </div>
+                    <div class="battle-center">
+                        <div class="zone-selection">
+                            <h3>Выберите зону для атаки (1)</h3>
+                            <div id="attack-zones" class="zone-buttons"></div>
+                            <h3>Выберите зоны для защиты (2)</h3>
+                            <div id="defend-zones" class="zone-buttons"></div>
+                            <button id="attack-btn" disabled>Атаковать</button>
+                            <button id="new-battle-btn" style="display:none;">⚔️ Новый бой</button>
+                        </div>
+                    </div>
+                    <div class="fighter opponent">
+                        <img id="battle-opponent-avatar" class="battle-avatar" src="assets/avatars/spider.png"
+                            alt="opponent avatar" />
+                        <h2><span id="battle-opponent-name"></span> <span class="hp-label">HP</span></h2>
+                        <div class="hp-bar">
+                            <div id="opponent-hp-fill" style="width:100%;"></div>
+                        </div>
+                        <span id="opponent-hp-text">100 / 100</span>
+                        <div id="opponent-description" class="opponent-description"></div>
+                    </div>
+                </div>
+                <div class="battle-log">
+                    <h3>Боевой лог</h3>
+                    <div id="log-container"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <audio id="sound-menu" loop src="assets/sounds/menu.mp3"></audio>
+    <audio id="sound-battle" loop src="assets/sounds/battle.mp3"></audio>
+    <audio id="sound-hit" src="assets/sounds/hit.mp3"></audio>
+    <audio id="sound-end" src="assets/sounds/end.mp3"></audio>
+    <div id="rules-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close">&times;</button>
+            <h2>📖 Правила боя</h2>
+            <ul>
+                <li><strong>Зоны:</strong> голова, корпус, ноги, руки.</li>
+                <li>Каждый ход вы выбираете <strong>1 зону для атаки</strong> и <strong>2 зоны для защиты</strong>.</li>
+                <li>Урон проходит, если атака попала в зону, которую противник <strong>не защищает</strong>.</li>
+                <li><strong>Критический удар</strong> (случайный шанс) наносит <strong>×1.5 урона</strong> и
+                    <strong>пробивает любую защиту</strong>.
+                </li>
+                <li>Бой длится, пока у одного из бойцов не закончится HP.</li>
+                <li>Победы и поражения сохраняются даже после перезагрузки страницы.</li>
+                <li>Лог показывает каждое действие хода: кто атаковал, куда, сколько урона (и был ли блок/крит).</li>
+            </ul>
+            <p style="margin-top:16px; color:#aaa; font-style:italic;">Удачи в бою! 🥊</p>
+        </div>
+    </div>
+</body>
+
+</html>
