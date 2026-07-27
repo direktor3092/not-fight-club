@@ -39,6 +39,30 @@ export function playEndSound() {
   soundEnd.play().catch(() => {});
 }
 
+function preloadImages() {
+  const avatars = [
+    'assets/avatars/default.png',
+    'assets/avatars/avatar1.png',
+    'assets/avatars/avatar2.png',
+    'assets/avatars/child.png',
+    'assets/avatars/hawking.png',
+    'assets/avatars/grandma.png',
+  ];
+  avatars.forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+}
+
+function preloadAudio() {
+  const sounds = [soundMenu, soundBattle, soundHit, soundEnd];
+  sounds.forEach(audio => {
+    if (audio) {
+      audio.load();
+    }
+  });
+}
+
 const nav = document.getElementById('main-nav');
 const navButtons = nav.querySelectorAll('button');
 const pages = {
@@ -110,23 +134,6 @@ document.getElementById('start-battle-btn').addEventListener('click', () => {
   navigateTo('battle');
 });
 
-export function initApp() {
-  loadState();
-  if (state.isBattleActive && state.opponent && state.battle) {
-    document.getElementById('nav-battle').style.display = 'inline-block';
-    navigateTo('battle');
-    return;
-  }
-  if (state.player.name && state.player.name !== 'Боец') {
-    navigateTo('home');
-  } else {
-    navigateTo('registration');
-  }
-  document.getElementById('settings-name-input').value = state.player.name;
-}
-
-initApp();
-
 document.getElementById('reset-progress-btn')?.addEventListener('click', () => {
   if (confirm('Вы уверены? Весь прогресс будет удалён безвозвратно.')) {
     localStorage.removeItem('not-fight-club-state');
@@ -166,3 +173,26 @@ document.addEventListener('keydown', (e) => {
     document.body.style.overflow = '';
   }
 });
+
+export function initApp() {
+  preloadImages();
+  preloadAudio();
+
+  loadState();
+
+  if (state.isBattleActive && state.opponent && state.battle) {
+    document.getElementById('nav-battle').style.display = 'inline-block';
+    navigateTo('battle');
+    return;
+  }
+
+  if (state.player.name && state.player.name !== 'Боец') {
+    navigateTo('home');
+  } else {
+    navigateTo('registration');
+  }
+
+  document.getElementById('settings-name-input').value = state.player.name;
+}
+
+initApp();

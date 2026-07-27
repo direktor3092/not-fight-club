@@ -33,15 +33,14 @@ export const PLAYER_CHARACTERS = [
 ];
 
 const defaultPlayer = {
-  name: PLAYER_CHARACTERS[0].name,
-  avatar: PLAYER_CHARACTERS[0].avatar,
+  name: '',
+  avatar: 'assets/avatars/default.png',
   wins: 0,
   losses: 0,
-  baseDamage: PLAYER_CHARACTERS[0].baseDamage,
-  maxHp: PLAYER_CHARACTERS[0].maxHp,
-  profile: PLAYER_CHARACTERS[0].profile,
-  characterId: PLAYER_CHARACTERS[0].id,
-  description: PLAYER_CHARACTERS[0].description,
+  baseDamage: 10,
+  maxHp: 100,
+  profile: { attack: 1, defend: 2 },
+  description: 'Обычный боец',
 };
 
 const OPPONENTS = [
@@ -89,6 +88,7 @@ export function initState(saved) {
     state.isBattleActive = saved.isBattleActive || false;
   } else {
     state.player = { ...defaultPlayer };
+    state.player.name = '';
     state.opponent = null;
     state.battle = null;
     state.isBattleActive = false;
