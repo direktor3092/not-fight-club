@@ -76,6 +76,12 @@ const pages = {
 let currentPage = 'registration';
 
 export function navigateTo(pageId) {
+  if (pageId === 'registration') {
+    nav.style.display = 'none';
+  } else {
+    nav.style.display = 'flex';
+  }
+
   Object.values(pages).forEach(p => p.classList.remove('active'));
   if (pages[pageId]) pages[pageId].classList.add('active');
 
